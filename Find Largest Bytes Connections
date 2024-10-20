@@ -1,5 +1,7 @@
 One common task while troubleshooting ASA/FTD connections is to identify the connections with highest bytes count. 
-Easiest way is to filter the connections using REGEX on device CLI.
+Easiest way is to filter the connections using REGEX on device CLI. This document is using "show conn" output, "show conn long" and "show long detail" has multiline
+outputs and different processing is needed.
+
 ciscoasa# sh conn | ?   
 
   append    Append to file
@@ -165,6 +167,11 @@ real	26m3.030s
 user	4m37.467s
 sys	15m23.332s
 
+memory usage:
+
+(base) RAJATSH-M-V7QW:Desktop rajatsh$ top | grep sort
+86528  sort             0.0  07:06.73 1/1    0   12     8667M 0B   6392M 86528 44777 running  *0[1]        0.00000 0.00000    501 76806619   633    19612      92         
+790141     13642      4685894    4          0        0.0   0      0      180    rajatsh               N/A    N/A   N/A   N/A   N/A   N/A 
 
 
 
