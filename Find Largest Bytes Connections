@@ -157,15 +157,7 @@ example for around 4Gbytes file
  39398150 conn2
 
 
-time grep "bytes .*.........," conn2 | sort -nrk9 | head -30
-
-took around 1m31 seconds to complete with less than 50Mbytes usage.
-
-real	1m31.240s
-user	1m29.443s
-sys	0m1.006s
-
-Without filter, it took 26 minute with 8Gbytes of memory usage.
+It took 26 minute with 8Gbytes of memory usage.
 
  time  sort -nrk9  conn2  | head -30
 
