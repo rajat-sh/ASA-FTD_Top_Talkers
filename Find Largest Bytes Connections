@@ -60,4 +60,38 @@ TCP outside  18.196.119.79:443 inside  192.168.1.222:45818, idle 0:00:00, bytes 
 UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:01, bytes 142590451, flags - 
 
 
+If you get lots of connections with same number of digits in bytes, you can use braceket expression on the first number to further isolate
+
+e.g 
+Filter with first digit between 5 and 9
+
+ciscoasa# sh conn | grep (bytes [5-9]*.......,) 
+
+Filter with first digit between 1 and 4
+
+ciscoasa# sh conn | grep (bytes [1-4]*.......,)
+
+Filter with first digit is 8 or 9
+
+ciscoasa# sh conn | grep (bytes [89]*.......,)
+
+few examples
+
+
+ciscoasa# sh conn | grep (bytes [1-9]*........,)
+UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:00, bytes 145016668, flags - 
+ciscoasa# sh conn | grep (bytes [9]*........,)  
+ciscoasa# sh conn | grep (bytes [1]*........,)
+UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:01, bytes 145029371, flags - 
+ciscoasa# sh conn | grep (bytes [1-5]*........,)
+UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:00, bytes 145045409, flags - 
+ciscoasa# sh conn | grep (bytes [6-9]*........,)
+ciscoasa# sh conn | grep (bytes [12]*........,) 
+UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:01, bytes 145050711, flags - 
+ciscoasa# sh conn | grep (bytes [123]*........,)
+UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:00, bytes 145062292, flags - 
+
+
+
+
 
