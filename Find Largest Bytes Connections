@@ -62,7 +62,7 @@ TCP outside  18.196.119.79:443 inside  192.168.1.222:45818, idle 0:00:00, bytes 
 UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:01, bytes 142590451, flags - 
 
 
-If you get lots of connections with same number of digits in bytes, you can use braceket expression on the first number to further isolate
+If you get lots of connections with same number of digits in bytes, you can use bracket expression on the first number to further isolate
 
 e.g 
 Filter with first digit between 5 and 9
