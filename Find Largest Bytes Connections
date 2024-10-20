@@ -93,5 +93,79 @@ UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:00, bytes 145
 
 
 
+You can apply similar logic on file as well. I am using a "sh conn" file with around 600k connections 
+
+(base) RAJATSH-M-V7QW:Desktop rajatsh$ wc -l connu
+  628849 connu
+(base) RAJATSH-M-V7QW:Desktop rajatsh$ ls -lh connu
+-rw-r--r--  1 rajatsh  staff    65M Oct 20 12:35 connu
+
+
+
+***Masking the ip addresses in ouput
+
+***Numeric sort on the column 9 which is bytes value, with defaukt field seprator of blank space. If your has additional spaces, column value will be different.
+
+base) RAJATSH-M-V7QW:Desktop rajatsh$ time grep "bytes .*.........," connu | sort -nrk9 | head -30
+TCP internet  x.x.x.x:52423 outside  x.x.x.x:8305, idle 0:37:51, bytes 234329823085, flags UIOoN1
+TCP internet  x.x.x.x:34113 outside  x.x.x.x:8305, idle 0:38:09, bytes 210493179767, flags UIO N1
+TCP internet  x.x.x.x:36580 outside  x.x.x.x:443, idle 0:00:00, bytes 15847987764, flags UIOoN1
+TCP internet  x.x.x.x:52376 outside  x.x.x.x:443, idle 0:00:00, bytes 14810575645, flags UIOoN1
+TCP internet  x.x.x.x:44424 outside  x.x.x.x:443, idle 0:00:00, bytes 12760598833, flags UIOoN1
+TCP internet  x.x.x.x:40032 outside  x.x.x.x:443, idle 0:00:00, bytes 11037655427, flags UIOoN1
+TCP internet  x.x.x.x:46510 outside  x.x.x.x:443, idle 0:00:00, bytes 7913673073, flags UIOoN1
+TCP internet  x.x.x.x:10001 outside  x.x.x.x:36136, idle 0:00:00, bytes 6876346568, flags UIO N1
+TCP internet  x.x.x.x:41674 outside  x.x.x.x:443, idle 0:17:54, bytes 6824429435, flags UIOoN1
+UDP internet  x.x.x.x:55030 outside  x.x.x.x:59872, idle 0:00:00, bytes 6124057215, flags - N1
+TCP internet  x.x.x.x:46446 outside  x.x.x.x:443, idle 0:00:01, bytes 6113582214, flags UIOoN1
+TCP internet  x.x.x.x:8000 outside  x.x.x.x:60752, idle 0:00:00, bytes 5734013551, flags UIO N1
+TCP internet  x.x.x.x:35374 outside  x.x.x.x:443, idle 0:00:04, bytes 4630486373, flags UIOoN1
+TCP internet  x.x.x.x:10201 outside  x.x.x.x:52302, idle 0:00:00, bytes 4463234926, flags UIO N1
+UDP internet  x.x.x.x:54512 outside  x.x.x.x:48078, idle 0:00:00, bytes 4324907121, flags - N1
+TCP internet  x.x.x.x:19219 outside  x.x.x.x:443, idle 0:00:00, bytes 4306351549, flags UIOoN1
+TCP internet  x.x.x.x:52912 outside  x.x.x.x:443, idle 0:00:00, bytes 4248417202, flags UIOoN1
+TCP internet  x.x.x.x:443 outside  x.x.x.x:59700, idle 0:00:00, bytes 4166659235, flags UOo
+TCP internet  x.x.x.x:443 outside  x.x.x.x:44570, idle 0:00:22, bytes 4064883107, flags UIOo
+TCP internet  x.x.x.x:443 outside  x.x.x.x:16299, idle 0:00:00, bytes 3900868072, flags UIOo
+TCP internet  x.x.x.x:56789 outside  x.x.x.x:443, idle 0:00:00, bytes 3889361205, flags UIOoN1
+TCP internet  x.x.x.x:443 outside  x.x.x.x:25117, idle 0:00:00, bytes 3811128475, flags UOo
+TCP internet  x.x.x.x:23138 outside  x.x.x.x:443, idle 0:00:00, bytes 3721076954, flags UIOoN1
+TCP internet  x.x.x.x:36832 outside  x.x.x.x:443, idle 0:00:00, bytes 3611308750, flags UIOoN1
+TCP internet  x.x.x.x:52472 outside  x.x.x.x:443, idle 0:00:00, bytes 3605029000, flags UIOoN1
+TCP internet  x.x.x.x:57060 outside  x.x.x.x:443, idle 0:00:04, bytes 3405916155, flags UIOoN1
+TCP internet  x.x.x.x:46312 outside  x.x.x.x:443, idle 0:00:00, bytes 3343244422, flags UIOoN1
+TCP internet  x.x.x.x:443 outside  x.x.x.x:3327, idle 0:00:01, bytes 3291889440, flags UOo
+TCP internet  x.x.x.x:5044 outside  x.x.x.x:45068, idle 0:00:10, bytes 3001475756, flags UIOoN1
+UDP internet  x.x.x.x:3480 outside  x.x.x.x:50034, idle 0:00:00, bytes 2978517854, flags -o
+
+real	0m1.643s
+user	0m1.461s
+sys	0m0.034s
+
+
+
+If you have large values to sort, it will be good idea to use regex to filter out unwanted values as sort memory usage will grow with file size.
+
+example for around 4Gbytes file
+
+-rw-r--r--@  1 rajatsh  staff   4.0G Sep 10 23:37 conn2
+
+39 million connections
+
+(base) RAJATSH-M-V7QW:Desktop rajatsh$ wc -l conn2
+ 39398150 conn2
+
+
+time grep "bytes .*.........," conn2 | sort -nrk9 | head -30
+
+took around 1m31 seconds to complete with less than 50Mbytes usage.
+
+real	1m31.240s
+user	1m29.443s
+sys	0m1.006s
+
+
+
+
 
 
