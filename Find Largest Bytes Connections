@@ -96,7 +96,8 @@ UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:00, bytes 145
 
 
 
-You can apply similar logic on file as well. I am using a "sh conn" file with around 600k connections 
+You can apply similar logic on file as well. I am using a "sh conn" file with around 600k connections,
+first you can filter the connections with bytes regex, so you are running sort on useful data.
 
 (base) RAJATSH-M-V7QW:Desktop rajatsh$ wc -l connu
   628849 connu
