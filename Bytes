@@ -1,1 +1,63 @@
 One common task while troubleshooting ASA/FTD connections is to identify the connections with highest bytes count. 
+Easiest way is to filter the connections using REGEX.
+ciscoasa# sh conn | ?   
+
+  append    Append to file
+  begin     Begin with the line that matches
+  count     Count number of lines which match regexp
+  exclude   Exclude lines that match
+  grep      Include/exclude lines that match
+  include   Include lines that match
+  redirect  Redirect to file
+
+For example following command shows all connections which have bytes count of minimum two digits.
+
+ciscoasa# sh conn | grep (bytes .*..,)
+UDP outside  185.125.190.56:123 inside  192.168.1.38:52247, idle 0:00:55, bytes 48, flags - 
+TCP outside  208.90.58.6:443 inside  192.168.1.222:38940, idle 0:00:27, bytes 7297, flags UFRxIO 
+UDP outside  185.125.190.58:123 inside  192.168.1.38:59754, idle 0:00:35, bytes 48, flags - 
+UDP outside  91.189.91.157:123 inside  192.168.1.38:49357, idle 0:01:06, bytes 48, flags - 
+TCP outside  18.196.119.79:443 inside  192.168.1.222:45818, idle 0:00:02, bytes 1815578, flags UxIO 
+TCP outside  10.48.26.239:8305 inside  192.168.1.223:36269, idle 0:00:05, bytes 468661, flags UxIO 
+UDP outside  185.125.190.57:123 inside  192.168.1.38:57734, idle 0:00:45, bytes 48, flags - 
+UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:00, bytes 142503242, flags - 
+TCP outside  10.48.26.239:8305 inside  192.168.1.223:34791, idle 0:00:09, bytes 198211, flags UxIO 
+TCP outside  10.56.224.241:61352 inside  192.168.1.38:22, idle 0:25:23, bytes 135371, flags UxIOB 
+
+You can start from low value and move up by adding more . characters in regex
+
+
+ciscoasa# sh conn | grep (bytes .*...,)
+TCP outside  18.196.119.79:443 inside  192.168.1.222:45818, idle 0:00:01, bytes 1816454, flags UxIO 
+TCP outside  10.48.26.239:8305 inside  192.168.1.223:36269, idle 0:00:03, bytes 478265, flags UxIO 
+UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:00, bytes 142581070, flags - 
+TCP outside  10.48.26.239:8305 inside  192.168.1.223:34791, idle 0:00:02, bytes 199279, flags UxIO 
+TCP outside  10.56.224.241:61352 inside  192.168.1.38:22, idle 0:26:55, bytes 135371, flags UxIOB 
+
+ciscoasa# sh conn | grep (bytes .*....,)
+TCP outside  18.196.119.79:443 inside  192.168.1.222:45818, idle 0:00:03, bytes 1816508, flags UxIO 
+TCP outside  10.48.26.239:8305 inside  192.168.1.223:36269, idle 0:00:00, bytes 478447, flags UxIO 
+UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:00, bytes 142584266, flags - 
+TCP outside  10.48.26.239:8305 inside  192.168.1.223:34791, idle 0:00:02, bytes 199509, flags UxIO 
+TCP outside  10.56.224.241:61352 inside  192.168.1.38:22, idle 0:27:01, bytes 135371, flags UxIOB 
+
+ciscoasa# sh conn | grep (bytes .*.....,)
+TCP outside  18.196.119.79:443 inside  192.168.1.222:45818, idle 0:00:00, bytes 1816562, flags UxIO 
+TCP outside  10.48.26.239:8305 inside  192.168.1.223:36269, idle 0:00:03, bytes 478571, flags UxIO 
+UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:00, bytes 142586935, flags - 
+TCP outside  10.48.26.239:8305 inside  192.168.1.223:34791, idle 0:00:02, bytes 199551, flags UxIO 
+TCP outside  10.56.224.241:61352 inside  192.168.1.38:22, idle 0:27:06, bytes 135371, flags UxIOB 
+
+ciscoasa# sh conn | grep (bytes .*......,)
+TCP outside  18.196.119.79:443 inside  192.168.1.222:45818, idle 0:00:00, bytes 1816591, flags UxIO 
+TCP outside  10.48.26.239:8305 inside  192.168.1.223:36269, idle 0:00:00, bytes 478827, flags UxIO 
+UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:00, bytes 142589763, flags - 
+TCP outside  10.48.26.239:8305 inside  192.168.1.223:34791, idle 0:00:06, bytes 199551, flags UxIO 
+TCP outside  10.56.224.241:61352 inside  192.168.1.38:22, idle 0:27:09, bytes 135371, flags UxIOB 
+
+ciscoasa# sh conn | grep (bytes .*.......,)
+TCP outside  18.196.119.79:443 inside  192.168.1.222:45818, idle 0:00:00, bytes 1816616, flags UxIO 
+UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:01, bytes 142590451, flags - 
+
+
+
