@@ -1,6 +1,6 @@
 One common task while troubleshooting ASA/FTD connections is to identify the connections with highest bytes count. 
-Easiest way is to filter the connections using REGEX on device CLI. This document is using "show conn" output, "show conn long" and "show long detail" has multiline
-outputs and different processing is needed.
+Easiest way is to filter the connections using REGEX on device CLI. This document is using "show conn" output, 
+"show conn long" and "show long detail" has multiline outputs and different processing is needed.
 
 ciscoasa# sh conn | ?   
 
@@ -62,7 +62,8 @@ TCP outside  18.196.119.79:443 inside  192.168.1.222:45818, idle 0:00:00, bytes 
 UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:01, bytes 142590451, flags - 
 
 
-If you get lots of connections with same number of digits in bytes, you can use bracket expression on the first number to further isolate
+If you get lots of connections with same number of digits in bytes, you can use bracket expression on 
+the first number to further isolate
 
 e.g 
 Filter with first digit between 5 and 9
@@ -106,8 +107,8 @@ You can apply similar logic on file as well. I am using a "sh conn" file with ar
 
 ***Masking the ip addresses in ouput
 
-***Numeric sort on the column 9 which is bytes value, with default field seprator of blank space. Please note if your file has additional spaces, column value 
-will be different.
+***Numeric sort on the column 9 which is bytes value, with default field seprator of blank space.
+Please note if your file has additional spaces, column value will be different.
 
 base) RAJATSH-M-V7QW:Desktop rajatsh$ time grep "bytes .*.........," connu | sort -nrk9 | head -30
 TCP internet  x.x.x.x:52423 outside  x.x.x.x:8305, idle 0:37:51, bytes 234329823085, flags UIOoN1
@@ -147,8 +148,9 @@ sys	0m0.034s
 
 
 
-If you have large values to sort, it will be good idea to use regex to filter out unwanted values, normally one would not like to consider lots of connection with
-small bytes count, as sort memory usage and CPU time will grow with file size.
+If you have large values to sort, it will be good idea to use regex to filter out unwanted values, 
+normally one would not like to consider lots of connection with small bytes count, as sort memory usage 
+and CPU time will grow with file size.
 
 example for around 4Gbytes file
 
