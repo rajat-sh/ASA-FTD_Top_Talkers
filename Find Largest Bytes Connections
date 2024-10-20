@@ -104,7 +104,8 @@ You can apply similar logic on file as well. I am using a "sh conn" file with ar
 
 ***Masking the ip addresses in ouput
 
-***Numeric sort on the column 9 which is bytes value, with defaukt field seprator of blank space. If your has additional spaces, column value will be different.
+***Numeric sort on the column 9 which is bytes value, with default field seprator of blank space. Please note if your file has additional spaces, column value 
+will be different.
 
 base) RAJATSH-M-V7QW:Desktop rajatsh$ time grep "bytes .*.........," connu | sort -nrk9 | head -30
 TCP internet  x.x.x.x:52423 outside  x.x.x.x:8305, idle 0:37:51, bytes 234329823085, flags UIOoN1
