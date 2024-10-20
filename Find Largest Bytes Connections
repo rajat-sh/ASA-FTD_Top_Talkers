@@ -147,7 +147,8 @@ sys	0m0.034s
 
 
 
-If you have large values to sort, it will be good idea to use regex to filter out unwanted values as sort memory usage will grow with file size.
+If you have large values to sort, it will be good idea to use regex to filter out unwanted values, normally one would not like to consider lots of connection with
+small bytes count, as sort memory usage will grow with file size.
 
 example for around 4Gbytes file
 
