@@ -165,6 +165,14 @@ real	1m31.240s
 user	1m29.443s
 sys	0m1.006s
 
+Without filter, it took 26 minute with 8Gbytes of memory usage.
+
+ time  sort -nrk9  conn2  | head -30
+
+real	26m3.030s
+user	4m37.467s
+sys	15m23.332s
+
 
 
 
