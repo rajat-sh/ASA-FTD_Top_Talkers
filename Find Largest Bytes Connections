@@ -202,6 +202,65 @@ real	0m1.641s
 user	0m1.458s
 sys	0m0.042s
 
+(base) RAJATSH-M-V7QW:Desktop rajatsh$ time grep "UDP.*bytes .*.........,.*flags.*N.*" connu | sort -nrk9 | head -20
+UDP internet  x.x.x.x:55030 INTERNAL-NETWORK  x.x.x.x:59872, idle 0:00:00, bytes 6124057215, flags - N1
+UDP internet  x.x.x.x:54512 INTERNAL-NETWORK  x.x.x.x:48078, idle 0:00:00, bytes 4324907121, flags - N1
+UDP internet  x.x.x.x:1194 INTERNAL-NETWORK  x.x.x.x:1194, idle 0:00:02, bytes 2552032864, flags - N2
+UDP internet  x.x.x.x:53922 INTERNAL-NETWORK  x.x.x.x:49640, idle 0:00:00, bytes 2489273937, flags -oN1
+UDP internet  x.x.x.x:162 INTERNAL-NETWORK  x.x.x.x:2048, idle 0:00:07, bytes 2387712788, flags -oN1
+UDP internet  x.x.x.x:47808 INTERNAL-NETWORK  x.x.x.x:47808, idle 0:00:02, bytes 2265836395, flags - N2
+UDP internet  x.x.x.x:54484 INTERNAL-NETWORK  x.x.x.x:54220, idle 0:00:00, bytes 2215362703, flags -oN1
+UDP internet  x.x.x.x:57052 INTERNAL-NETWORK  x.x.x.x:48144, idle 0:00:00, bytes 1981823052, flags -oN1
+UDP internet  x.x.x.x:47808 INTERNAL-NETWORK  x.x.x.x:47808, idle 0:00:02, bytes 1517950661, flags - N2
+UDP internet  x.x.x.x:57522 INTERNAL-NETWORK  x.x.x.x:51214, idle 0:00:00, bytes 1293938206, flags -oN1
+UDP internet  x.x.x.x:1194 INTERNAL-NETWORK  x.x.x.x:1194, idle 0:00:00, bytes 1234628116, flags - N2
+UDP internet  x.x.x.x:2088 INTERNAL-NETWORK  x.x.x.x:2088, idle 0:00:00, bytes 1190928830, flags -oN1
+UDP internet  x.x.x.x:162 INTERNAL-NETWORK  x.x.x.x:2048, idle 0:00:01, bytes 977088055, flags -oN1
+UDP internet  x.x.x.x:2088 INTERNAL-NETWORK  x.x.x.x:2088, idle 0:00:00, bytes 975837747, flags - N1
+UDP internet  x.x.x.x:4500 INTERNAL-NETWORK  x.x.x.x:4500, idle 0:00:00, bytes 974765422, flags - N2
+UDP internet  x.x.x.x:2088 INTERNAL-NETWORK  x.x.x.x:2088, idle 0:00:07, bytes 959430559, flags -oN1
+UDP internet  x.x.x.x:4500 INTERNAL-NETWORK  x.x.x.x:4500, idle 0:00:02, bytes 903971878, flags - N2
+UDP internet  x.x.x.x:4500 INTERNAL-NETWORK  x.x.x.x:4500, idle 0:00:03, bytes 895766429, flags - N2
+UDP internet  x.x.x.x:59578 INTERNAL-NETWORK  x.x.x.x:51312, idle 0:00:00, bytes 846297667, flags -oN1
+UDP internet  x.x.x.x:58232 INTERNAL-NETWORK  x.x.x.x:50936, idle 0:00:00, bytes 838767369, flags -oN1
+
+real	0m0.449s
+user	0m0.212s
+sys	0m0.032s
+(base) RAJATSH-M-V7QW:Desktop rajatsh$ time grep "TCP.*bytes .*.........,.*flags.*N.*" connu | sort -nrk9 | head -100
+TCP internet  x.x.x.x:52423 INTERNAL-NETWORK  x.x.x.x:8305, idle 0:37:51, bytes 234329823085, flags UIOoN1
+TCP internet  x.x.x.x:34113 INTERNAL-NETWORK  x.x.x.x:8305, idle 0:38:09, bytes 210493179767, flags UIO N1
+TCP internet  x.x.x.x:36580 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 15847987764, flags UIOoN1
+TCP internet  x.x.x.x:52376 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 14810575645, flags UIOoN1
+TCP internet  x.x.x.x:44424 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 12760598833, flags UIOoN1
+TCP internet  x.x.x.x:40032 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 11037655427, flags UIOoN1
+TCP internet  x.x.x.x:46510 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 7913673073, flags UIOoN1
+TCP internet  x.x.x.x:10001 INTERNAL-NETWORK  x.x.x.x:36136, idle 0:00:00, bytes 6876346568, flags UIO N1
+TCP internet  x.x.x.x:41674 INTERNAL-NETWORK  x.x.x.x:443, idle 0:17:54, bytes 6824429435, flags UIOoN1
+TCP internet  x.x.x.x:46446 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:01, bytes 6113582214, flags UIOoN1
+TCP internet  x.x.x.x:8000 INTERNAL-NETWORK  x.x.x.x:60752, idle 0:00:00, bytes 5734013551, flags UIO N1
+TCP internet  x.x.x.x:35374 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:04, bytes 4630486373, flags UIOoN1
+TCP internet  x.x.x.x:10201 INTERNAL-NETWORK  x.x.x.x:52302, idle 0:00:00, bytes 4463234926, flags UIO N1
+TCP internet  x.x.x.x:19219 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 4306351549, flags UIOoN1
+TCP internet  x.x.x.x:52912 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 4248417202, flags UIOoN1
+TCP internet  x.x.x.x:56789 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 3889361205, flags UIOoN1
+TCP internet  x.x.x.x:23138 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 3721076954, flags UIOoN1
+TCP internet  x.x.x.x:36832 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 3611308750, flags UIOoN1
+TCP internet  x.x.x.x:52472 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 3605029000, flags UIOoN1
+TCP internet  x.x.x.x:57060 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:04, bytes 3405916155, flags UIOoN1
+TCP internet  x.x.x.x:46312 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 3343244422, flags UIOoN1
+TCP internet  x.x.x.x:5044 INTERNAL-NETWORK  x.x.x.x:45068, idle 0:00:10, bytes 3001475756, flags UIOoN1
+TCP internet  x.x.x.x:58810 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 2969612972, flags UIOoN1
+TCP internet  x.x.x.x:34179 INTERNAL-NETWORK  x.x.x.x:8305, idle 0:00:00, bytes 2648274784, flags UIOoN1
+TCP internet  x.x.x.x:40939 INTERNAL-NETWORK  x.x.x.x:8305, idle 0:00:00, bytes 2622297590, flags UIO N1
+TCP internet  x.x.x.x:57260 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 2583859485, flags UIOoN1
+
+
+
+real	0m3.278s
+user	0m3.096s
+sys	0m0.049s
+(base) RAJATSH-M-V7QW:Desktop rajatsh$ 
 
 
 
