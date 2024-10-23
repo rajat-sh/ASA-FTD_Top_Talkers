@@ -3,7 +3,7 @@ Easiest way is to filter the connections using REGEX on device CLI. This documen
 "show conn long" and "show long detail" has multiline outputs and different processing is needed.
 
 
-***Masking the ip addresses in ouput to x.x.x.x for privacy.
+***Masking the ip addresses in output to x.x.x.x for privacy.
 
 
 ciscoasa# sh conn | ?   
