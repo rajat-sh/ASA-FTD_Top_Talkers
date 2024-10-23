@@ -2,6 +2,10 @@ One common task while troubleshooting ASA/FTD connections is to identify the con
 Easiest way is to filter the connections using REGEX on device CLI. This document is using "show conn" output, 
 "show conn long" and "show long detail" has multiline outputs and different processing is needed.
 
+
+***Masking the ip addresses in ouput to x.x.x.x for privacy.
+
+
 ciscoasa# sh conn | ?   
 
   append    Append to file
@@ -15,51 +19,51 @@ ciscoasa# sh conn | ?
 For example following command shows all connections which have bytes count of minimum two digits.
 
 ciscoasa# sh conn | grep (bytes .*..,)
-UDP outside  185.125.190.56:123 inside  192.168.1.38:52247, idle 0:00:55, bytes 48, flags - 
-TCP outside  208.90.58.6:443 inside  192.168.1.222:38940, idle 0:00:27, bytes 7297, flags UFRxIO 
-UDP outside  185.125.190.58:123 inside  192.168.1.38:59754, idle 0:00:35, bytes 48, flags - 
-UDP outside  91.189.91.157:123 inside  192.168.1.38:49357, idle 0:01:06, bytes 48, flags - 
-TCP outside  18.196.119.79:443 inside  192.168.1.222:45818, idle 0:00:02, bytes 1815578, flags UxIO 
-TCP outside  10.48.26.239:8305 inside  192.168.1.223:36269, idle 0:00:05, bytes 468661, flags UxIO 
-UDP outside  185.125.190.57:123 inside  192.168.1.38:57734, idle 0:00:45, bytes 48, flags - 
-UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:00, bytes 142503242, flags - 
-TCP outside  10.48.26.239:8305 inside  192.168.1.223:34791, idle 0:00:09, bytes 198211, flags UxIO 
-TCP outside  10.56.224.241:61352 inside  192.168.1.38:22, idle 0:25:23, bytes 135371, flags UxIOB 
+UDP outside  x.x.x.x:123 inside  x.x.x.x:52247, idle 0:00:55, bytes 48, flags - 
+TCP outside  x.x.x.x:443 inside  x.x.x.x:38940, idle 0:00:27, bytes 7297, flags UFRxIO 
+UDP outside  x.x.x.x:123 inside  x.x.x.x:59754, idle 0:00:35, bytes 48, flags - 
+UDP outside  x.x.x.x:123 inside  x.x.x.x:49357, idle 0:01:06, bytes 48, flags - 
+TCP outside  x.x.x.x:443 inside  x.x.x.x:45818, idle 0:00:02, bytes 1815578, flags UxIO 
+TCP outside  x.x.x.x:8305 inside  x.x.x.x:36269, idle 0:00:05, bytes 468661, flags UxIO 
+UDP outside  x.x.x.x:123 inside  x.x.x.x:57734, idle 0:00:45, bytes 48, flags - 
+UDP outside  x.x.x.x:514 inside  x.x.x.x:56219, idle 0:00:00, bytes 142503242, flags - 
+TCP outside  x.x.x.x:8305 inside  x.x.x.x:34791, idle 0:00:09, bytes 198211, flags UxIO 
+TCP outside  x.x.x.x:61352 inside  x.x.x.x:22, idle 0:25:23, bytes 135371, flags UxIOB 
 
 You can start from low value and move up by adding more . characters in regex
 
 
 ciscoasa# sh conn | grep (bytes .*...,)
-TCP outside  18.196.119.79:443 inside  192.168.1.222:45818, idle 0:00:01, bytes 1816454, flags UxIO 
-TCP outside  10.48.26.239:8305 inside  192.168.1.223:36269, idle 0:00:03, bytes 478265, flags UxIO 
-UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:00, bytes 142581070, flags - 
-TCP outside  10.48.26.239:8305 inside  192.168.1.223:34791, idle 0:00:02, bytes 199279, flags UxIO 
-TCP outside  10.56.224.241:61352 inside  192.168.1.38:22, idle 0:26:55, bytes 135371, flags UxIOB 
+TCP outside  x.x.x.x:443 inside  x.x.x.x:45818, idle 0:00:01, bytes 1816454, flags UxIO 
+TCP outside  x.x.x.x:8305 inside  x.x.x.x:36269, idle 0:00:03, bytes 478265, flags UxIO 
+UDP outside  x.x.x.x:514 inside  x.x.x.x:56219, idle 0:00:00, bytes 142581070, flags - 
+TCP outside  x.x.x.x:8305 inside  x.x.x.x:34791, idle 0:00:02, bytes 199279, flags UxIO 
+TCP outside  x.x.x.x:61352 inside  x.x.x.x:22, idle 0:26:55, bytes 135371, flags UxIOB 
 
 ciscoasa# sh conn | grep (bytes .*....,)
-TCP outside  18.196.119.79:443 inside  192.168.1.222:45818, idle 0:00:03, bytes 1816508, flags UxIO 
-TCP outside  10.48.26.239:8305 inside  192.168.1.223:36269, idle 0:00:00, bytes 478447, flags UxIO 
-UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:00, bytes 142584266, flags - 
-TCP outside  10.48.26.239:8305 inside  192.168.1.223:34791, idle 0:00:02, bytes 199509, flags UxIO 
-TCP outside  10.56.224.241:61352 inside  192.168.1.38:22, idle 0:27:01, bytes 135371, flags UxIOB 
+TCP outside  x.x.x.x:443 inside  x.x.x.x:45818, idle 0:00:03, bytes 1816508, flags UxIO 
+TCP outside  x.x.x.x:8305 inside  x.x.x.x:36269, idle 0:00:00, bytes 478447, flags UxIO 
+UDP outside  x.x.x.x:514 inside  x.x.x.x:56219, idle 0:00:00, bytes 142584266, flags - 
+TCP outside  x.x.x.x:8305 inside  x.x.x.x:34791, idle 0:00:02, bytes 199509, flags UxIO 
+TCP outside  x.x.x.x:61352 inside  x.x.x.x:22, idle 0:27:01, bytes 135371, flags UxIOB 
 
 ciscoasa# sh conn | grep (bytes .*.....,)
-TCP outside  18.196.119.79:443 inside  192.168.1.222:45818, idle 0:00:00, bytes 1816562, flags UxIO 
-TCP outside  10.48.26.239:8305 inside  192.168.1.223:36269, idle 0:00:03, bytes 478571, flags UxIO 
-UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:00, bytes 142586935, flags - 
-TCP outside  10.48.26.239:8305 inside  192.168.1.223:34791, idle 0:00:02, bytes 199551, flags UxIO 
-TCP outside  10.56.224.241:61352 inside  192.168.1.38:22, idle 0:27:06, bytes 135371, flags UxIOB 
+TCP outside  x.x.x.x:443 inside  x.x.x.x:45818, idle 0:00:00, bytes 1816562, flags UxIO 
+TCP outside  x.x.x.x:8305 inside  x.x.x.x:36269, idle 0:00:03, bytes 478571, flags UxIO 
+UDP outside  x.x.x.x:514 inside  x.x.x.x:56219, idle 0:00:00, bytes 142586935, flags - 
+TCP outside  x.x.x.x:8305 inside  x.x.x.x:34791, idle 0:00:02, bytes 199551, flags UxIO 
+TCP outside  x.x.x.x:61352 inside  x.x.x.x:22, idle 0:27:06, bytes 135371, flags UxIOB 
 
 ciscoasa# sh conn | grep (bytes .*......,)
-TCP outside  18.196.119.79:443 inside  192.168.1.222:45818, idle 0:00:00, bytes 1816591, flags UxIO 
-TCP outside  10.48.26.239:8305 inside  192.168.1.223:36269, idle 0:00:00, bytes 478827, flags UxIO 
-UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:00, bytes 142589763, flags - 
-TCP outside  10.48.26.239:8305 inside  192.168.1.223:34791, idle 0:00:06, bytes 199551, flags UxIO 
-TCP outside  10.56.224.241:61352 inside  192.168.1.38:22, idle 0:27:09, bytes 135371, flags UxIOB 
+TCP outside  x.x.x.x:443 inside  x.x.x.x:45818, idle 0:00:00, bytes 1816591, flags UxIO 
+TCP outside  x.x.x.x:8305 inside  x.x.x.x:36269, idle 0:00:00, bytes 478827, flags UxIO 
+UDP outside  x.x.x.x:514 inside  x.x.x.x:56219, idle 0:00:00, bytes 142589763, flags - 
+TCP outside  x.x.x.x:8305 inside  x.x.x.x:34791, idle 0:00:06, bytes 199551, flags UxIO 
+TCP outside  x.x.x.x:61352 inside  x.x.x.x:22, idle 0:27:09, bytes 135371, flags UxIOB 
 
 ciscoasa# sh conn | grep (bytes .*.......,)
-TCP outside  18.196.119.79:443 inside  192.168.1.222:45818, idle 0:00:00, bytes 1816616, flags UxIO 
-UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:01, bytes 142590451, flags - 
+TCP outside  x.x.x.x:443 inside  x.x.x.x:45818, idle 0:00:00, bytes 1816616, flags UxIO 
+UDP outside  x.x.x.x:514 inside  x.x.x.x:56219, idle 0:00:01, bytes 142590451, flags - 
 
 
 If you get lots of connections with same number of digits in bytes, you can use bracket expression on 
@@ -82,17 +86,17 @@ few examples
 
 
 ciscoasa# sh conn | grep (bytes [1-9]*........,)
-UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:00, bytes 145016668, flags - 
+UDP outside  x.x.x.x:514 inside  x.x.x.x:56219, idle 0:00:00, bytes 145016668, flags - 
 ciscoasa# sh conn | grep (bytes [9]*........,)  
 ciscoasa# sh conn | grep (bytes [1]*........,)
-UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:01, bytes 145029371, flags - 
+UDP outside  x.x.x.x:514 inside  x.x.x.x:56219, idle 0:00:01, bytes 145029371, flags - 
 ciscoasa# sh conn | grep (bytes [1-5]*........,)
-UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:00, bytes 145045409, flags - 
+UDP outside  x.x.x.x:514 inside  x.x.x.x:56219, idle 0:00:00, bytes 145045409, flags - 
 ciscoasa# sh conn | grep (bytes [6-9]*........,)
 ciscoasa# sh conn | grep (bytes [12]*........,) 
-UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:01, bytes 145050711, flags - 
+UDP outside  x.x.x.x:514 inside  x.x.x.x:56219, idle 0:00:01, bytes 145050711, flags - 
 ciscoasa# sh conn | grep (bytes [123]*........,)
-UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:00, bytes 145062292, flags - 
+UDP outside  x.x.x.x:514 inside  x.x.x.x:56219, idle 0:00:00, bytes 145062292, flags - 
 
 Another common use case would be to filter the connection with specific flags and find largest bytes count e.g to 
 find the largest bytes connections inspected by snort.
@@ -100,16 +104,16 @@ find the largest bytes connections inspected by snort.
 On CLI of ASA/FTD you can do the following to filter with certain minimum bytes and flags
 
 ciscoasa# sh conn | grep (bytes .*........,.*flags.*UxI.*)
-TCP outside  10.48.26.239:8305 inside  192.168.1.94:39995, idle 0:00:04, bytes 28538458, flags UxIO 
-TCP outside  10.48.26.239:8305 inside  192.168.1.96:47339, idle 0:00:00, bytes 54874405, flags UxIO 
+TCP outside  x.x.x.x:8305 inside  x.x.x.x:39995, idle 0:00:04, bytes 28538458, flags UxIO 
+TCP outside  x.x.x.x:8305 inside  x.x.x.x:47339, idle 0:00:00, bytes 54874405, flags UxIO 
 
 
 ciscoasa# sh conn | grep (bytes .*.....,.*flags.*UxI.*)   
-TCP outside  18.196.119.79:443 inside  192.168.1.222:45818, idle 0:00:02, bytes 4728683, flags UxIO 
-TCP outside  10.48.26.239:8305 inside  192.168.1.94:41563, idle 0:00:07, bytes 6444613, flags UxIO 
-TCP outside  10.48.26.239:8305 inside  192.168.1.94:39995, idle 0:00:03, bytes 28539047, flags UxIO 
-TCP outside  10.48.26.239:8305 inside  192.168.1.96:47339, idle 0:00:03, bytes 54883832, flags UxIO 
-TCP outside  10.48.26.239:8305 inside  192.168.1.96:47487, idle 0:00:02, bytes 6488378, flags UxIO 
+TCP outside  x.x.x.x:443 inside  x.x.x.x:45818, idle 0:00:02, bytes 4728683, flags UxIO 
+TCP outside  x.x.x.x:8305 inside  x.x.x.x:41563, idle 0:00:07, bytes 6444613, flags UxIO 
+TCP outside  x.x.x.x:8305 inside  x.x.x.x:39995, idle 0:00:03, bytes 28539047, flags UxIO 
+TCP outside  x.x.x.x:8305 inside  x.x.x.x:47339, idle 0:00:03, bytes 54883832, flags UxIO 
+TCP outside  x.x.x.x:8305 inside  x.x.x.x:47487, idle 0:00:02, bytes 6488378, flags UxIO 
 
 
 for snort
@@ -129,7 +133,7 @@ first you can filter the connections with bytes regex, so you are running sort o
 
 
 
-***Masking the ip addresses in ouput
+
 
 ***Numeric sort on the column 9 which is bytes value, with default field seprator of blank space.
 Please note if your file has additional spaces, column value will be different.
@@ -228,6 +232,7 @@ memory usage:
 (base) RAJATSH-M-V7QW:Desktop rajatsh$ top | grep sort
 86528  sort             0.0  07:06.73 1/1    0   12     8667M 0B   6392M 86528 44777 running  *0[1]        0.00000 0.00000    501 76806619   633    19612      92         
 790141     13642      4685894    4          0        0.0   0      0      180    rajatsh               N/A    N/A   N/A   N/A   N/A   N/A 
+
 
 
 
