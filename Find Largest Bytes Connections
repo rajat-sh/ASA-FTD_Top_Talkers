@@ -94,6 +94,29 @@ UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:01, bytes 145
 ciscoasa# sh conn | grep (bytes [123]*........,)
 UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:00, bytes 145062292, flags - 
 
+Another common use case would be to filter the connection with specific flags and find largest bytes count e.g to 
+find the largest bytes connections inspected by snort.
+
+On CLI of ASA/FTD you can do the following to filter with certain minimum bytes and flags
+
+ciscoasa# sh conn | grep (bytes .*........,.*flags.*UxI.*)
+TCP outside  10.48.26.239:8305 inside  192.168.1.94:39995, idle 0:00:04, bytes 28538458, flags UxIO 
+TCP outside  10.48.26.239:8305 inside  192.168.1.96:47339, idle 0:00:00, bytes 54874405, flags UxIO 
+
+
+ciscoasa# sh conn | grep (bytes .*.....,.*flags.*UxI.*)   
+TCP outside  18.196.119.79:443 inside  192.168.1.222:45818, idle 0:00:02, bytes 4728683, flags UxIO 
+TCP outside  10.48.26.239:8305 inside  192.168.1.94:41563, idle 0:00:07, bytes 6444613, flags UxIO 
+TCP outside  10.48.26.239:8305 inside  192.168.1.94:39995, idle 0:00:03, bytes 28539047, flags UxIO 
+TCP outside  10.48.26.239:8305 inside  192.168.1.96:47339, idle 0:00:03, bytes 54883832, flags UxIO 
+TCP outside  10.48.26.239:8305 inside  192.168.1.96:47487, idle 0:00:02, bytes 6488378, flags UxIO 
+
+
+for snort
+
+ciscoasa# sh conn | grep (bytes .*.....,.*flags.*N.*)  
+
+
 
 
 You can apply similar logic on file as well. I am using a "sh conn" file with around 600k connections,
@@ -146,6 +169,35 @@ UDP internet  x.x.x.x:3480 outside  x.x.x.x:50034, idle 0:00:00, bytes 297851785
 real	0m1.643s
 user	0m1.461s
 sys	0m0.034s
+
+top talkers inspected by snort
+
+base) RAJATSH-M-V7QW:Desktop rajatsh$ time grep "bytes .*.........,.*flags.*N.*" connu | sort -nrk9 | head -20
+TCP internet  x.x.x.x:52423 INTERNAL-NETWORK  x.x.x.x:8305, idle 0:37:51, bytes 234329823085, flags UIOoN1
+TCP internet  x.x.x.x:34113 INTERNAL-NETWORK  x.x.x.x:8305, idle 0:38:09, bytes 210493179767, flags UIO N1
+TCP internet  x.x.x.x:36580 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 15847987764, flags UIOoN1
+TCP internet  x.x.x.x:52376 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 14810575645, flags UIOoN1
+TCP internet  x.x.x.x:44424 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 12760598833, flags UIOoN1
+TCP internet  x.x.x.x:40032 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 11037655427, flags UIOoN1
+TCP internet  x.x.x.x:46510 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 7913673073, flags UIOoN1
+TCP internet  x.x.x.x:10001 INTERNAL-NETWORK  x.x.x.x:36136, idle 0:00:00, bytes 6876346568, flags UIO N1
+TCP internet  x.x.x.x:41674 INTERNAL-NETWORK  x.x.x.x:443, idle 0:17:54, bytes 6824429435, flags UIOoN1
+UDP internet  x.x.x.x:55030 INTERNAL-NETWORK  x.x.x.x:59872, idle 0:00:00, bytes 6124057215, flags - N1
+TCP internet  x.x.x.x:46446 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:01, bytes 6113582214, flags UIOoN1
+TCP internet  x.x.x.x:8000 INTERNAL-NETWORK  x.x.x.x:60752, idle 0:00:00, bytes 5734013551, flags UIO N1
+TCP internet  x.x.x.x:35374 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:04, bytes 4630486373, flags UIOoN1
+TCP internet  x.x.x.x:10201 INTERNAL-NETWORK  x.x.x.x:52302, idle 0:00:00, bytes 4463234926, flags UIO N1
+UDP internet  x.x.x.x:54512 INTERNAL-NETWORK  x.x.x.x:48078, idle 0:00:00, bytes 4324907121, flags - N1
+TCP internet  x.x.x.x:19219 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 4306351549, flags UIOoN1
+TCP internet  x.x.x.x:52912 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 4248417202, flags UIOoN1
+TCP internet  x.x.x.x:56789 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 3889361205, flags UIOoN1
+TCP internet  x.x.x.x:23138 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 3721076954, flags UIOoN1
+TCP internet  x.x.x.x:36832 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 3611308750, flags UIOoN1
+
+real	0m1.641s
+user	0m1.458s
+sys	0m0.042s
+
 
 
 
