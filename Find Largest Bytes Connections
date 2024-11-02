@@ -148,7 +148,17 @@ ciscoasa# sh conn | grep UDP.*:123.*bytes .*,
 
 UDP outside  173.38.201.115:123 inside  192.168.1.222:123, idle 0:01:40, bytes 96, flags -
 
-
+if you need to check to the box traffic, you can use show conn all and do something like the following
+For TCP
+ciscoasa# sh conn all | grep (TCP.*inside.*Identity)
+TCP inside  192.168.1.119:50854 NP Identity Ifc  192.168.1.1:179, idle 0:00:36, bytes 72263, flags UOB
+TCP inside  192.168.1.219:29174 NP Identity Ifc  192.168.1.1:179, idle 0:00:25, bytes 73023, flags UOB
+TCP inside  192.168.1.38:5201 NP Identity Ifc  192.168.1.1:63333, idle 0:00:00, bytes 0, flags   
+TCP inside  192.168.1.38:5201 NP Identity Ifc  192.168.1.1:28291, idle 0:00:00, bytes 0, flags   
+TCP inside  192.168.1.194:179 NP Identity Ifc  192.168.1.1:12854, idle 0:00:14, bytes 75037, flags UO
+TCP inside  192.168.1.115:179 NP Identity Ifc  192.168.1.1:23889, idle 0:00:29, bytes 29098, flags UO
+TCP inside  192.168.1.190:179 NP Identity Ifc  192.168.1.1:2209, idle 0:00:02, bytes 0, flags saA
+TCP inside  192.168.1.38:5201 NP Identity Ifc  192.168.1.1:18834, idle 0:00:00, bytes 0, flags 
 
 You can apply similar logic on file as well. I am using a "sh conn" file with around 600k connections,
 first you can filter the connections with bytes regex, so you are running sort on useful data.
@@ -281,6 +291,32 @@ TCP internet  x.x.x.x:58810 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 2
 TCP internet  x.x.x.x:34179 INTERNAL-NETWORK  x.x.x.x:8305, idle 0:00:00, bytes 2648274784, flags UIOoN1
 TCP internet  x.x.x.x:40939 INTERNAL-NETWORK  x.x.x.x:8305, idle 0:00:00, bytes 2622297590, flags UIO N1
 TCP internet  x.x.x.x:57260 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 2583859485, flags UIOoN1
+
+Sometimes U-turn connections needs to be examined for bytes count, you can do something like below and pipe to sort.
+
+ 
+
+(base) RAJATSH-M-V7QW:Desktop rajatsh$ grep "TCP.*INTERNAL-NETWORK.*INTERNAL-NETWORK" connu
+TCP INTERNAL-NETWORK  x.x.x.x:41697 INTERNAL-NETWORK  x.x.x.x:80, idle 0:00:20, bytes 0, flags aA N1
+TCP INTERNAL-NETWORK  x.x.x.x:43699 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:01, bytes 0, flags aA N1
+TCP INTERNAL-NETWORK  x.x.x.x:50473 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 0, flags aA N
+TCP INTERNAL-NETWORK  x.x.x.x:50400 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 0, flags aA N
+TCP INTERNAL-NETWORK  x.x.x.x:50388 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 0, flags aA N
+TCP INTERNAL-NETWORK  x.x.x.x:50370 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 0, flags aA N
+TCP INTERNAL-NETWORK  x.x.x.x:54161 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:06, bytes 0, flags aA N
+TCP INTERNAL-NETWORK  x.x.x.x:62458 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:02, bytes 0, flags aA N
+TCP INTERNAL-NETWORK  x.x.x.x:55483 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:20, bytes 0, flags aA N
+TCP INTERNAL-NETWORK  x.x.x.x:64221 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:00, bytes 0, flags aA N
+TCP INTERNAL-NETWORK  x.x.x.x:50491 INTERNAL-NETWORK  x.x.x.x:443, idle 0:00:01, bytes 0, flags aA N
+TCP INTERNAL-NETWORK  x.x.x.x:61975 INTERNAL-NETWORK  x.x.x.x:80, idle 0:00:04, bytes 0, flags aA N
+TCP INTERNAL-NETWORK  x.x.x.x:42426 INTERNAL-NETWORK  x.x.x.x:80, idle 0:00:04, bytes 0, flags aA N
+TCP INTERNAL-NETWORK  x.x.x.x:42020 INTERNAL-NETWORK  x.x.x.x:80, idle 0:00:06, bytes 0, flags aA N
+
+ For UDP
+
+(base) RAJATSH-M-V7QW:Desktop rajatsh$ grep "UDP.*INTERNAL-NETWORK.*INTERNAL-NETWORK" connu
+
+ 
 
 
 
