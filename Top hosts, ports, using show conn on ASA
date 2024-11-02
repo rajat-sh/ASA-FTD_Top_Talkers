@@ -1,5 +1,6 @@
 One common task in ASA/FTD troubleshooting is to find the top hosts, ports, hosts pair, socket-host pair etc using the "show conn" output file. This document is using "show conn" output, "show conn long" and 
-"show long detail" has multiline outputs and different processing is needed. I will explain the logic, idea is reader can use this a framework and do similar tasks.
+"show long detail" has multiline outputs and different processing is needed. I will explain the logic, goal is readers can use this as a framework and do similar tasks, lot of file processing tasks can be mapped 
+to this type of programs.
 
 show conn connection will look like following:
 
@@ -19,7 +20,8 @@ This kind of task in general can be mapped to unique string count issue. I will 
 
 Example 1. 
 
-In this we will calculate top hosts from file. First is to prepare the input so each data that we are interested to process is a unique column.
+In this we will calculate top hosts from file. First is to prepare the input so each data that we are interested to process is a unique column i.e each IP address is on unique line in ouput.
+
 Code i am using for this task is following:
 
 
@@ -87,7 +89,8 @@ TCP outside  10.48.26.239:8305 inside  192.168.1.94:57773, idle 0:00:01, bytes 9
 
 As you can see above each IP addresss in the connection is on new line.
 
-Next task would be to calculate the count of each IP addrress, following code is used for this task, this is a hashamp/associative array which will have each IP address as key and count as value.
+Next task would be to calculate the count of each IP addrress, following code is used for this task, this is a hashamp/associative array which will have each IP address as key and count as value and it will pront
+key-value pair two columns in each line.
 
 
 (base) RAJATSH-M-V7QW:Desktop rajatsh$ cat hashmap.awk 
@@ -201,6 +204,261 @@ you can also use regex to filter what you need for particular case, e.g you only
 
 grep ":443 "  connu | awk -f prep.awk | awk -f hashmap.awk | sort -nrk1 | head -20
 
+
+Also for context connu file contains around 600k connections
+
+(base) RAJATSH-M-V7QW:Desktop rajatsh$ wc -l connu
+  628849 connu
+(base) RAJATSH-M-V7QW:Desktop rajatsh$ ls -lh connu
+-rw-r--r--  1 rajatsh  staff    65M Oct 20 12:35 connu
+
+
+Also it is quite scalable for CPU/Mem usage, more importantly memory usage (maximum resident set size) is constant around 1 Mbytes  irespective of file size.
+
+
+(base) RAJATSH-M-V7QW:Desktop rajatsh$ date; /usr/bin/time -l -h cat connu | awk -f prep.awk | awk -f hashmap.awk | sort -nrk1 | head -20; date
+Sat Nov  2 20:51:28 CET 2024
+	4.15s real		0.00s user		0.04s sys
+             1327104  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                 194  page reclaims
+                   2  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                4160  voluntary context switches
+                 135  involuntary context switches
+           189503143  instructions retired
+           138920617  cycles elapsed
+             1164224  peak memory footprint
+56638 x.x.x.x
+14716 x.x.x.x
+13448 x.x.x.x
+13118 x.x.x.x
+12619 x.x.x.x
+12615 x.x.x.x
+12218 x.x.x.x
+11982 x.x.x.x
+11367 x.x.x.x
+11214 x.x.x.x
+11159 x.x.x.x
+10862 x.x.x.x
+10828 x.x.x.x
+10767 x.x.x.x
+10741 x.x.x.x
+10706 x.x.x.x
+10633 x.x.x.x
+10607 x.x.x.x
+10512 x.x.x.x
+10510 x.x.x.x
+Sat Nov  2 20:51:33 CET 2024
+
+
+
+if it run it on large file, 4Gbytes file, around 39 million connecctions
+
+(base) RAJATSH-M-V7QW:Desktop rajatsh$ wc -l conn2
+ 39398150 conn2
+(base) RAJATSH-M-V7QW:Desktop rajatsh$ ls -lh conn2
+-rw-r--r--@ 1 rajatsh  staff   4.0G Sep 10 23:37 conn2
+
+
+(base) RAJATSH-M-V7QW:Desktop rajatsh$ date; /usr/bin/time -l -h cat conn2 | awk -f prep.awk | awk -f hashmap.awk | sort -nrk1 | head -20; date
+Sat Nov  2 20:55:02 CET 2024
+	4m11.51s real		0.10s user		2.00s sys
+             1327104  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                 206  page reclaims
+                   4  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+              259634  voluntary context switches
+                7516  involuntary context switches
+          7083887647  instructions retired
+          6225113100  cycles elapsed
+             1164224  peak memory footprint
+3568194 x.x.x.x
+927108 x.x.x.x
+847224 x.x.x.x
+826434 x.x.x.x
+794745 x.x.x.x
+788449 x.x.x.x
+763303 x.x.x.x
+748488 x.x.x.x
+710190 x.x.x.x
+700556 x.x.x.x
+697162 x.x.x.x
+682164 x.x.x.x
+678562 x.x.x.x
+672494 x.x.x.x
+670972 x.x.x.x
+668771 x.x.x.x
+664328 x.x.x.x
+662636 x.x.x.x
+656616 x.x.x.x
+656597 x.x.x.x
+Sat Nov  2 20:59:14 CET 2024
+
+
+Example 2.
+
+In this we will calculate top ports from file. First is to prepare the input so each data that we are interested to process is a unique column i.e each port is on unique line in ouput.
+
+
+#Next line is setting the output field seprator to new line
+BEGIN{OFS = "\n"}
+{
+	#Next line is removing the commas from each line
+	gsub(",", "", $0)
+	#Next line is checking if the first column value is TCP,UDP as this would be most common use case
+	if($1 == "TCP" || $1 == "UDP")
+	{
+		#Next two line removes the ":" between the IP address and ports.
+		 sub(":", " ", $0)
+		 sub(":", " ", $0)
+		print $4,$7
+	}
+}
+END{}
+
+
+
+
+
+we will get something like this
+
+(base) RAJATSH-M-V7QW:Desktop rajatsh$ echo "TCP outside  10.48.26.239:8305 inside  192.168.1.96:41815, idle 0:00:01, bytes 32564248, flags UxIO 
+TCP outside  3.65.105.133:443 inside  192.168.1.222:50034, idle 0:00:02, bytes 6734661, flags UxIO 
+TCP outside  10.48.26.239:8305 inside  192.168.1.96:47891, idle 0:00:08, bytes 13081667, flags UxIO 
+TCP outside  146.112.255.69:443 inside  192.168.1.222:50880, idle 0:00:55, bytes 11005, flags UxIO 
+UDP outside  172.31.74.20:123 inside  192.168.1.223:123, idle 0:00:08, bytes 48, flags - 
+TCP outside  10.0.1.10:389 inside  192.168.1.222:44914, idle 0:00:17, bytes 0, flags sxaA 
+UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:00, bytes 1141743837, flags - 
+TCP outside  10.0.1.11:389 inside  192.168.1.222:48668, idle 0:00:07, bytes 0, flags sxaA 
+TCP outside  10.0.1.202:8910 inside  192.168.1.222:49486, idle 0:00:21, bytes 0, flags sxaA 
+TCP outside  10.48.26.239:8305 inside  192.168.1.94:41823, idle 0:00:04, bytes 10865453, flags UxIO 
+TCP outside  10.48.26.239:8305 inside  192.168.1.94:57773, idle 0:00:01, bytes 9255547, flags UxIO " | awk -f portprep.awk
+8305
+41815
+443
+50034
+8305
+47891
+443
+50880
+123
+123
+389
+44914
+514
+56219
+389
+48668
+8910
+49486
+8305
+41823
+8305
+57773
+
+
+
+Next step would be same as example 1
+
+
+(base) RAJATSH-M-V7QW:Desktop rajatsh$ echo "TCP outside  10.48.26.239:8305 inside  192.168.1.96:41815, idle 0:00:01, bytes 32564248, flags UxIO 
+TCP outside  3.65.105.133:443 inside  192.168.1.222:50034, idle 0:00:02, bytes 6734661, flags UxIO 
+TCP outside  10.48.26.239:8305 inside  192.168.1.96:47891, idle 0:00:08, bytes 13081667, flags UxIO 
+TCP outside  146.112.255.69:443 inside  192.168.1.222:50880, idle 0:00:55, bytes 11005, flags UxIO 
+UDP outside  172.31.74.20:123 inside  192.168.1.223:123, idle 0:00:08, bytes 48, flags - 
+TCP outside  10.0.1.10:389 inside  192.168.1.222:44914, idle 0:00:17, bytes 0, flags sxaA 
+UDP outside  10.0.1.135:514 inside  192.168.1.222:56219, idle 0:00:00, bytes 1141743837, flags - 
+TCP outside  10.0.1.11:389 inside  192.168.1.222:48668, idle 0:00:07, bytes 0, flags sxaA 
+TCP outside  10.0.1.202:8910 inside  192.168.1.222:49486, idle 0:00:21, bytes 0, flags sxaA 
+TCP outside  10.48.26.239:8305 inside  192.168.1.94:41823, idle 0:00:04, bytes 10865453, flags UxIO 
+TCP outside  10.48.26.239:8305 inside  192.168.1.94:57773, idle 0:00:01, bytes 9255547, flags UxIO " | awk -f portprep.awk | awk -f hashmap.awk | sort -rnk1
+4 8305
+2 443
+2 389
+2 123
+1 8910
+1 57773
+1 56219
+1 514
+1 50880
+1 50034
+1 49486
+1 48668
+1 47891
+1 44914
+1 41823
+1 41815
+
+
+
+some tests:
+
+(base) RAJATSH-M-V7QW:Desktop rajatsh$ ls -lh connu
+-rw-r--r--  1 rajatsh  staff    65M Oct 20 12:35 connu
+(base) RAJATSH-M-V7QW:Desktop rajatsh$ wc -l connu
+  628849 connu
+(base) RAJATSH-M-V7QW:Desktop rajatsh$ date; /usr/bin/time -l -h cat connu | awk -f portprep.awk | awk -f hashmap.awk | sort -nrk1 | head -25; date
+Sat Nov  2 21:21:16 CET 2024
+	3.93s real		0.00s user		0.02s sys
+             1327104  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                 193  page reclaims
+                   2  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                4156  voluntary context switches
+                  35  involuntary context switches
+           104439337  instructions retired
+            85841344  cycles elapsed
+             1147776  peak memory footprint
+580331 443
+8167 80
+7426 3478
+3856 8443
+3333 25
+2751 8089
+2649 3061
+2309 3060
+2033 5223
+1771 3481
+1760 3480
+1392 5061
+1279 36400
+898 46447
+848 3479
+602 5222
+595 36010
+588 40013
+471 22
+464 37777
+408 53
+390 40014
+376 8282
+370 9092
+347 3065
+Sat Nov  2 21:21:20 CET 2024
 
 
 
