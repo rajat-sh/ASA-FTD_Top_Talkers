@@ -27,7 +27,7 @@ Code i am using for this task is following:
 
 base) RAJATSH-M-V7QW:Desktop rajatsh$ cat prep.awk 
 
-#Next line is setting the output field seprator to new line
+#Next line is setting the output field separator to new line
 BEGIN{OFS = "\n"}
 {
 	#Next line is removing the commas from each line
@@ -87,9 +87,9 @@ TCP outside  10.48.26.239:8305 inside  192.168.1.94:57773, idle 0:00:01, bytes 9
 
 
 
-As you can see above each IP addresss in the connection is on new line.
+As you can see above each IP address in the connection is on new line.
 
-Next task would be to calculate the count of each IP addrress, following code is used for this task, this is a hashamp/associative array which will have each IP address as key and count as value and it will pront
+Next task would be to calculate the count of each IP address, following code is used for this task, this is a hashamp/associative array which will have each IP address as key and count as value and it will print
 key-value pair two columns in each line.
 
 
@@ -213,7 +213,7 @@ Also for context connu file contains around 600k connections
 -rw-r--r--  1 rajatsh  staff    65M Oct 20 12:35 connu
 
 
-Also it is quite scalable for CPU/Mem usage, more importantly memory usage (maximum resident set size) is constant around 1 Mbytes  irespective of file size.
+Also it is quite scalable for CPU/Mem usage, more importantly memory usage (maximum resident set size) is constant around 1 Mbytes  irrespective of file size.
 
 
 (base) RAJATSH-M-V7QW:Desktop rajatsh$ date; /usr/bin/time -l -h cat connu | awk -f prep.awk | awk -f hashmap.awk | sort -nrk1 | head -20; date
@@ -260,7 +260,7 @@ Sat Nov  2 20:51:33 CET 2024
 
 
 
-if it run it on large file, 4Gbytes file, around 39 million connecctions
+if it run it on large file, 4Gbytes file, around 39 million connections
 
 (base) RAJATSH-M-V7QW:Desktop rajatsh$ wc -l conn2
  39398150 conn2
@@ -313,10 +313,10 @@ Sat Nov  2 20:59:14 CET 2024
 
 Example 2.
 
-In this we will calculate top ports from file. First is to prepare the input so each data that we are interested to process is a unique column i.e each port is on unique line in ouput.
+In this we will calculate top ports from file. First is to prepare the input so each data that we are interested to process is a unique column i.e each port is on unique line in output.
 
 
-#Next line is setting the output field seprator to new line
+#Next line is setting the output field separator to new line
 BEGIN{OFS = "\n"}
 {
 	#Next line is removing the commas from each line
@@ -621,7 +621,7 @@ Example 4.
 
 To count IP address and port counts
 
-#Next line is setting the output field seprator to new line
+#Next line is setting the output field separator to new line
 BEGIN{OFS = "\n"}
 {
 	#Next line is removing the commas from each line
@@ -688,12 +688,12 @@ Sat Nov  2 21:41:02 CET 2024
 
 
 
-In summary whatever is your paricular use case, prep code can be modified easily.
+In summary whatever is your particular use case, prep code can be modified easily.
 
 
-e.g You are interested in only checking U-Turn connctions where both interface are same and count the top hosts
+e.g You are interested in only checking U-Turn connections where both interface are same and count the top hosts
 
-#Next line is setting the output field seprator to new line
+#Next line is setting the output field separator to new line
 BEGIN{OFS = "\n"}
 {
 	#Next line is removing the commas from each line
@@ -722,7 +722,7 @@ END{}
 
 
 *** "date" and  "/usr/bin/time -l -h" commands are optional i am using to check CPU and memory.
-*** Also most of the awk syntax is optional, examples are using descriptive for readability, also two or more codes can be commbined etc.
+*** Also most of the awk syntax is optional, examples are using descriptive for readability, also two or more codes can be combined etc.
 
 
 
