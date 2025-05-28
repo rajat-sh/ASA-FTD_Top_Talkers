@@ -356,7 +356,63 @@ memory usage:
 790141     13642      4685894    4          0        0.0   0      0      180    rajatsh               N/A    N/A   N/A   N/A   N/A   N/A 
 
 
+**Quick one liner, replace file with filename with "show conn" output, to change the top value from 20 to something else replace the argument value to head command.**
 
+ 
+grep bytes file | awk {'print $9";"$3";"$5'} | sort -rn | sed s/,//g | head -n 20 | awk 'BEGIN { FS = ";" } ; { print byte =$1/1024/1024" MB\t\t"$2" --> "$3 }'
+
+ examples
+
+ To see in bytes 
+
+ **grep bytes conn | awk {'print $9";"$3";"$5'} | sort -rn | sed s/,//g | head -n 20 | awk 'BEGIN { FS = ";" } ; { print byte =$1" Bytes\t\t"$2" --> "$3 }'**
+
+ 234329823085 Bytes 192.168.221.7:52423 --> 10.5.29.6:8305
+
+234329823085 Bytes 192.168.221.7:52423 --> 10.5.29.6:8305
+
+234329823085 Bytes 192.168.221.7:52423 --> 10.5.29.6:8305
+
+234329823085 Bytes 192.168.221.7:52423 --> 10.5.29.6:8305
+
+234329823085 Bytes 192.168.221.7:52423 --> 10.5.29.6:8305
+
+234329823085 Bytes 192.168.221.7:52423 --> 10.5.29.6:8305
+
+234329823085 Bytes 192.168.221.7:52423 --> 10.5.29.6:8305
+
+ 
+To list in Mbytes
+
+ 
+
+**grep bytes conn | awk {'print $9";"$3";"$5'} | sort -rn | sed s/,//g | head -n 20 | awk 'BEGIN { FS = ";" } ; { print byte =$1/1024/1024" MB\t\t"$2" --> "$3 }'**
+
+223474 MB 192.168.221.7:52423 --> 10.5.29.6:8305
+
+223474 MB 192.168.221.7:52423 --> 10.5.29.6:8305
+
+223474 MB 192.168.221.7:52423 --> 10.5.29.6:8305
+
+223474 MB 192.168.221.7:52423 --> 10.5.29.6:8305
+
+223474 MB 192.168.221.7:52423 --> 10.5.29.6:8305
+
+223474 MB 192.168.221.7:52423 --> 10.5.29.6:8305
+
+ 
+
+To see in Gbytes 
+
+ 
+
+**grep bytes conn | awk {'print $9";"$3";"$5'} | sort -rn | sed s/,//g | head -n 60 | awk 'BEGIN { FS = ";" } ; { print byte =$1/1024/1024/1024" GB\t\t"$2" --> "$3 }'**
+
+218.237 GB 192.168.221.7:52423 --> 10.5.29.6:8305
+
+218.237 GB 192.168.221.7:52423 --> 10.5.29.6:8305
+
+218.237 GB 192.168.221.7:52423 --> 10.5.29.6:8305
 
 
 
